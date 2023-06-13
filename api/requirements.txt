@@ -1,0 +1,30 @@
+# Core packages
+gunicorn==20.1.0
+Django==4.1.7
+djangorestframework==3.14.0
+django-cors-headers==3.14.0
+django-filter==22.1
+
+# DB and File Server
+psycopg2-binary==2.9.5
+
+# Documentation
+django-rest-swagger==2.2.0
+drf-yasg==1.21.5
+
+# Renderers
+djangorestframework-xml==2.0.0
+
+# Validators
+python-magic==0.4.27
+django-upload-validator==1.1.6
+
+# Utils
+django-model-utils==4.3.1
+
+# Code Quality & Testing
+pytest==7.2.1
+pytest-django==4.5.2
+factory-boy==3.2.1
+coverage==7.2.1
+

@@ -1,0 +1,31 @@
+version: "3.7"
+
+# This is the local development docker-compose file
+services:
+  # ---------------------- POSTGRES ---------------------- #
+  file-upload-postgres-service:
+    container_name: file-upload-postgres
+    extends:
+      file: docker/base-postgres.yml
+      service: file-upload-postgres
+    ports:
+      - 5432:5432
+
+  # ---------------------- API ---------------------- #
+  api-service:
+    container_name: file-upload-api
+    extends:
+      file: docker/base-api.yml
+      service: file-upload-api
+    build: api
+    volumes:
+      - ./api:/api
+    ports:
+      - 8000:8000
+    depends_on:
+      file-upload-postgres-service:
+        condition: service_healthy
+
+volumes:
+  file-upload-postgres-data:
+  file-upload-api-logs:

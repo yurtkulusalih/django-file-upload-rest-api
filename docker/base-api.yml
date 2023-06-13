@@ -1,0 +1,35 @@
+version: "2.3"
+
+services:
+  file-upload-api:
+    environment:
+      - PYTHONUNBUFFERED=1
+      - C_FORCE_ROOT=true
+      - DEBUG=${DEBUG} # DEBUG
+      - CORS_ALLOW_ALL=${DEBUG} # DEBUG
+      - WEBSITE_URL=${SCHEMA}://${WEBSITE_DOMAIN} # SCHEMA/WEBSITE DOMAIN
+      - ALLOWED_HOSTS=${API_DOMAIN} # API DOMAIN
+      - POSTGRES_HOST=${POSTGRES_DOMAIN}
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=fileApi
+      - POSTGRES_USER=dbUser
+      - TZ=Europe/Berlin
+      - PGTZ=Europe/Berlin
+      - PAGINATION_LIMIT=100
+      - SECRET_KEY # FROM .env
+      - POSTGRES_PASSWORD # FROM .env
+      - DEPLOYMENT_ENVIRONMENT # FROM .env
+    volumes:
+      - file-upload-api-logs:/var/log/
+    expose:
+      - "8000"
+    entrypoint: |
+      bash -c '
+      python3.9 manage.py createcachetable
+      python3.9 manage.py makemigrations
+      python3.9 manage.py migrate
+      python3.9 manage.py runserver 0.0.0.0:8000
+      '
+
+volumes:
+  file-upload-api-logs:
